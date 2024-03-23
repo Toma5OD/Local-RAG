@@ -1,0 +1,18 @@
+# Standard libraries and packages
+markdown
+
+# LangChain ecosystem
+langchain
+langchain_community
+langchainhub
+chromadb
+langgraph
+tavily-python
+langchain-mistralai
+gpt4all
+
+# Additional tools for language model integration
+llama-cpp-python
+
+# Dependencies for text processing and embeddings
+tiktoken
