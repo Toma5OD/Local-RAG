@@ -58,6 +58,51 @@ Before starting, ensure that you have Python installed on your system. This proj
 
 Upon running `main.py`, the script will guide you through the process of entering a query and will display the generated answer based on the local documents processed. It's a demonstration of the system's capability to perform RAG techniques entirely locally, ensuring privacy and data security.
 
+## Repository Layout
+
+This section provides an overview of the repository's structure, helping you navigate and understand the different components of the project.
+
+```plaintext
+├── 📁 local-rag
+│   │   📄 main.py
+│   │   📄 README.md
+│   │   📄 requirements.txt
+│   ├── 📁 sample_data
+│   │   │   📄 alan_cat.md
+│   │   │   📄 bella_dog.md
+│   │   │   📄 charlie_parrot.md
+│   │   │   📄 daisy_horse.md
+│   │   │   📄 eddie_rabbit.md
+│   │   │   📄 fiona_fox.md
+│   │   │   📄 george_elephant.md
+│   │   │   📄 holly_squirrel.md
+│   │   │   📄 ivan_bear.md
+│   │   │   📄 jenny_turtle.md
+│   ├── 📁 sample_data2
+│   │   │   📄 Amelia.md
+│   │   │   📄 Eva.md
+│   │   │   📄 Harry.md
+│   │   │   📄 Isabella.md
+│   │   │   📄 James.md
+│   │   │   📄 Luke.md
+│   │   │   📄 Mia.md
+│   │   │   📄 Noah.md
+│   │   │   📄 Oliver.md
+│   │   │   📄 Sarah.md
+```
+
+### Explanation of Key Folders
+
+- **`sample_data`**: This folder contains markdown files with information about various animal characters. Each file is dedicated to a different animal, providing a rich set of data to ask questions about. This data serves as a test set for document retrieval and processing capabilities of the script.
+
+  ![sample_data](./public/sample_data.png)
+
+- **`sample_data2`**: Similar to `sample_data`, this folder houses markdown files; however, it focuses on hypothetical student profiles. Each file represents a student, offering background information that can be used for testing the document retrieval system in a different context.
+
+  ![sample_data2](./public/sample_data2.png)
+
+These folders help test the script's ability to retrieve and generate answers based on different types of documents, showcasing the flexibility and adaptability of the local RAG system.
+
 ## Current Shortcomings and Areas for Improvement
 
 - **Retrieval and Context Quality**: The current setup lacks sophistication in how documents are retrieved and the context provided to the language model.
