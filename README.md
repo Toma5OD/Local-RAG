@@ -5,18 +5,17 @@ This script is an exploration into using Retrieve-and-Generate (RAG) techniques 
 ## Core Technologies and Techniques
 
 - **LangChain and Chroma**: For advanced document retrieval. Chroma, a retrieval technique from LangChain, is utilized for its vector storage and similarity search capabilities, crucial for the RAG approach.
-- **Markdown Conversion**: Converts markdown documents to plain text, though improvements are needed in this area.
 - **Local Language Model Execution**: Utilizes a local instance of the Mistral language model for generating responses, aiming to keep data processing in-house and secure.
 
 ## Workflow Overview
 
-1. **Document Processing**: Loads and processes markdown files from a local directory, converting them to plain text (with identified shortcomings in conversion accuracy).
+1. **Document Processing**: Loads and processes markdown files from a local directory, converting them to plain text.
 2. **Retrieval with Chroma**: Employs the Chroma vector store for document retrieval based on query similarity, a key component of the RAG technique.
 3. **Answer Generation**: Utilizes local execution of the Mistral language model to generate answers, focusing on maintaining data privacy and avoiding external dependencies.
 
 ## Getting Started for First-Time Users
 
-To effectively use this script and take advantage of local RAG techniques for document retrieval and answer generation, first-time users are guided through a series of initial setup steps. This includes the installation of necessary software, cloning the repository, and running the script.
+Follow the below steps to test this script on your local machine. It will guide you through the setup process and demonstrate the local RAG capabilities.
 
 ### Prerequisites
 
