@@ -1,5 +1,6 @@
 # Standard libraries and packages
 markdown
+html2text
 
 # LangChain ecosystem
 langchain

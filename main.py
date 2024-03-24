@@ -1,10 +1,11 @@
 from pathlib import Path
-import markdown  # Used to convert markdown documents to plain text.
+import markdown
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import GPT4AllEmbeddings
 import subprocess
 import json
+import html2text
 
 # Setting up variables for the script.
 local_path = "/home/Toma5OD/dev/test_files_for_rag2"
@@ -21,7 +22,7 @@ class CustomChromaRetriever:
         self.search_type = search_type  # Store the search type
         self.search_kwargs = search_kwargs if search_kwargs is not None else {}
 
-    def get_relevant_documents(self, query, limit=10):
+    def get_relevant_documents(self, query, limit=2):
         # Include 'search_type' as a positional argument
         search_kwargs = {"k": limit, **self.search_kwargs}
         return self.vectorstore.search(query, self.search_type, **search_kwargs)
@@ -29,12 +30,14 @@ class CustomChromaRetriever:
 # Document loading and processing. Reads all markdown files from a directory.
 docs = []
 repo_path = Path(local_path)
+h = html2text.HTML2Text()
+h.ignore_links = True
 for index, md_file in enumerate(repo_path.glob('**/*.md'), start=1):
     with open(md_file, 'r', encoding='utf-8') as file:
         text = file.read()
-        plain_text = markdown.markdown(text)
+        html_content = markdown.markdown(text)
+        plain_text = h.handle(html_content)  # Converts HTML to plain text
         docs.append(plain_text)
-        # print(f"{index}: plain_text: {plain_text}")
 
 # Creates document objects from the text of each document.
 doc_objects = [SimpleDocument(text, {}) for text in docs]
@@ -53,15 +56,15 @@ search_term = input("Please enter your question: ")
 # Instantiate your custom retriever with the desired search type (if different from "similarity").
 retriever = CustomChromaRetriever(vectorstore, search_type="similarity")
 
-# Retrieve documents as before.
-results = retriever.get_relevant_documents(search_term, limit=20)
+# Retrieve documents relevant to the user's query.
+results = retriever.get_relevant_documents(search_term, limit=2)
 
 # Defines a function to generate answers using a local language model.
 def generate_answer_with_ollama(context, question):
     prompt = f"Question: '{question}'. Context required to answer the question: '{context}'"
 
     # uncomment to see the prompt
-    # print(f"Prompt: {prompt}")
+    print(f"Prompt: {prompt}")
 
     command = ["ollama", "run", "mistral", prompt, "--format", "json"]
     process = subprocess.run(command, capture_output=True, text=True)
