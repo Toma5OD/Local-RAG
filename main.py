@@ -6,6 +6,7 @@ from langchain_community.embeddings import GPT4AllEmbeddings
 import subprocess
 import json
 import html2text
+import re
 
 # Setting up variables for the script.
 local_path = "/home/Toma5OD/dev/test_files_for_rag2"
@@ -22,7 +23,7 @@ class CustomChromaRetriever:
         self.search_type = search_type  # Store the search type
         self.search_kwargs = search_kwargs if search_kwargs is not None else {}
 
-    def get_relevant_documents(self, query, limit=2):
+    def get_relevant_documents(self, query, limit=1):
         # Include 'search_type' as a positional argument
         search_kwargs = {"k": limit, **self.search_kwargs}
         return self.vectorstore.search(query, self.search_type, **search_kwargs)
@@ -57,28 +58,27 @@ search_term = input("Please enter your question: ")
 retriever = CustomChromaRetriever(vectorstore, search_type="similarity")
 
 # Retrieve documents relevant to the user's query.
-results = retriever.get_relevant_documents(search_term, limit=2)
+results = retriever.get_relevant_documents(search_term, limit=1)
 
 # Defines a function to generate answers using a local language model.
+
 def generate_answer_with_ollama(context, question):
     prompt = f"Question: '{question}'. Context required to answer the question: '{context}'"
 
-    # uncomment to see the prompt
+    # Debugging output to console, can be commented out in production
     print(f"Prompt: {prompt}")
 
-    command = ["ollama", "run", "mistral", prompt, "--format", "json"]
+    # Running the ollama command, assuming output is in a predictable text format
+    command = ["ollama", "run", "gemma", prompt]
     process = subprocess.run(command, capture_output=True, text=True)
-    response = process.stdout
+    full_response = process.stdout
 
-    # uncomment to see the context
-    # print(f"THIS IS THE CONTEXT:\n {context}")
+    # Debugging: print the full response to help with troubleshooting
+    print(f"Full Response: {full_response}")
 
-    try:
-        answer_data = json.loads(response)
-        answer = answer_data.get("answer", next(iter(answer_data.values()), "No answer found."))
-    except (json.JSONDecodeError, StopIteration):
-        answer = "Failed to decode the response or response format unexpected."
-    return answer
+    # Directly return the full_response, or trim as needed based on known headers/footers in the response
+    # For example, if there's a consistent starting point in the response you want to exclude, you can adjust here
+    return full_response.strip()
 
 # Prepares the context from retrieved documents and generates an answer.
 context = "\n\n".join([doc.page_content for doc in results])

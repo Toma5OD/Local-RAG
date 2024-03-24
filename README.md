@@ -118,3 +118,11 @@ These folders help test the script's ability to retrieve and generate answers ba
 Improving the script will involve enhancing the text conversion process, optimizing local model performance, and refining retrieval techniques to include document metadata and SEO strategies. The goal is to create a more sophisticated and efficient local RAG system that respects user privacy and offers high-quality, relevant responses.
 
 This initiative aligns with the broader movement towards open-source, locally controlled AI tools, ensuring that sensitive data remains secure and processing is transparent and customizable.
+
+### Model Evaluation and Selection
+
+During the development of our local RAG system, I assessed multiple models to find the most efficient option for local execution, with an emphasis on models under 14GB due to hardware limitations. This included testing LLaMA 2, Mistral, and GEMMA, among others.
+
+**Challenges with Larger Models:** My CPU struggled with models larger than my system could comfortably handle, resulting in prohibitively slow performance.
+
+**Success with GEMMA:** Ultimately, the Google open-source GEMMA model, at 5GB, proved to be the most effective, balancing performance with the resource constraints of my local machine.
